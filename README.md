@@ -20,17 +20,19 @@ class Point
 end
 
 > Point.new
-# => ArgumentError: "x is required"
+# => ArgumentError: "`x` is required"
 > Point.new(x: 1)
-# => ArgumentError: "y is required"
+# => ArgumentError: "`y` is required"
 > Point.new(x: 1, y: 2)
 # => #<Point @x=1, @y=2, @color="red">
 > Point.new(x: 1, y: 2, color: 'blue')
 # => #<Point @x=1, @y=2, @color="blue">
-> Point.new(x: 'not-a-number')
-# => ArgumentError: "y is required"
 > Point.new(x: 'not-a-number', y: 1)
-# => TypeError: "x must be an instance of Integer"
+# => TypeError: "`x` must be an instance of Integer"
+> Point.new(x: 1, y: 'not-a-number')
+# => TypeError: "`y` must be an instance of Integer"
+> Point.new(x: 1, y: 2, color: 3)
+# => TypeError: "`color` must be an instance of String"
 ```
 
 ## Implementation
@@ -45,24 +47,24 @@ The code from the example above becomes:
 ``` ruby
 class Point
   attr_reader(:x, :y, :color)
-  def initialize(options)
+  def initialize(options = {})
     unless options.has_key?(:x)
-      raise(ArgumentError, "x is required")
+      raise(ArgumentError, "`x` is required")
     end
     unless options.has_key?(:y)
-      raise(ArgumentError, "y is required")
+      raise(ArgumentError, "`y` is required")
     end
     x = options[:x]
     y = options[:y]
     color = options.fetch(:color, "red")
     unless x.is_a?(Integer)
-      raise(TypeError, "x must be an instance of Integer")
+      raise(TypeError, "`x` must be an instance of " + Integer.name)
     end
     unless y.is_a?(Integer)
-      raise(TypeError, "y must be an instance of Integer")
+      raise(TypeError, "`y` must be an instance of " + Integer.name)
     end
     unless color.is_a?(String)
-      raise(TypeError, "color must be an instance of String")
+      raise(TypeError, "`color` must be an instance of " + String.name)
     end
     @x = x
     @y = y

@@ -9,7 +9,7 @@ describe 'Strict Ruby Pseudo-Language' do
     subject(:compiled) { TypedRuby.compile(input) }
 
     it 'rewrites all the stuff correctly' do
-      expect(compiled).to eq(expected)
+      expect(compiled.strip).to eq(expected.strip)
     end
   end
 
@@ -23,11 +23,11 @@ describe 'Strict Ruby Pseudo-Language' do
     it 'validates that parameters are provided' do
       expect { Point.new }.to raise_error(ArgumentError, "`x` is required")
       expect { Point.new(x: 1) }.to raise_error(ArgumentError, "`y` is required")
-      expect { Point.new(y: 1) }.to raise_error(ArgumentError, "`y` is required")
+      expect { Point.new(y: 1) }.to raise_error(ArgumentError, "`x` is required")
     end
 
     it 'validates that parameters have correct type' do
-      expect { Point.new(x: 'a') }.to raise_error(TypeError, "`x` must be an instance of Integer")
+      expect { Point.new(x: 'a', y: 1) }.to raise_error(TypeError, "`x` must be an instance of Integer")
       expect { Point.new(x: 1, y: 'a') }.to raise_error(TypeError, "`y` must be an instance of Integer")
       expect { Point.new(x: 1, y: 1, color: 1) }.to raise_error(TypeError, "`color` must be an instance of String")
     end

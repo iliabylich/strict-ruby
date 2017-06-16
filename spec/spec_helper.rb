@@ -1,8 +1,8 @@
-require 'bundler/setup'
-
 ROOT = File.expand_path('../..', __FILE__).freeze
-
 $: << File.join(ROOT, 'lib')
+
+require 'bundler/setup'
+require 'pry'
 require 'typed_ruby'
 
 module ExamplesHelper
