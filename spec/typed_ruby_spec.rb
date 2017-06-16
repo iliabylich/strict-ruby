@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe 'Strict Ruby Pseudo-Language' do
   let(:input) { read_example('input.rb') }
 
